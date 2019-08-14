@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Wheel from './Wheel'
-import { RandomSlots } from '../../helpers'
+import { Symbols, RandomSlots } from '../../helpers'
 
 import { connect } from "react-redux"
 
@@ -15,30 +15,63 @@ const Wrapper = styled.div`
 `;
 
 const Image = styled.div`
+  overflow: hidden;
+  height: 0;
+  padding-top: 100%;
+
+  div {
+    margin-top: ${ props => `-${props.slot + 1}00%` }
+    font-size: 0;
+  }
   img {
     width: 100%;
     height: auto;
-    max-width: 200px;
   }
 `
 
-const startArray = RandomSlots()
-
-const WheelsContainer = (props) => (
-  <Wrapper>
-    { startArray.map( (item, index) => (
-      <Wheel key={index}>
-        <Image>
-          <img src={item.image} alt=""/>
-        </Image>
-      </Wheel>
-    ))}
-    
-  </Wrapper>
-);
+class WheelsContainer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      slots: RandomSlots(),
+    }
+  }
+  
+  updateSlots = () => {
+    let slotWheels = setInterval(() => {
+      if(this.props.slotMachine.spin) {
+        this.setState({ slots: RandomSlots() })
+      } else {
+        clearInterval(slotWheels);
+      }
+    }, 500)
+    return this.state.slots
+  }
+  
+  
+  render() {
+    return (
+      <Wrapper>
+        { this.updateSlots().map( (item, index) => (
+          <Wheel key={index}>
+            <Image slot={item} >
+              <div>
+                {Symbols.map((symbol) => (
+                  <img key={symbol.name} 
+                    src={symbol.image} alt="" 
+                  />
+                ))}
+              </div>
+            </Image>
+          </Wheel>
+        ))}
+      </Wrapper>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
-  slots: state.slots
+  slotMachine: state.slots
 });
 
 export default connect(mapStateToProps)(WheelsContainer);

@@ -2,6 +2,10 @@ import React from 'react'
 import WheelsContainer from './WheelsContainer'
 import Button from './Button'
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as SlotMachineActions } from '../../store/ducks/slots';
+
 import styled from 'styled-components'
 
 const SlotMachineContainer = ({ className, children }) => (
@@ -32,12 +36,21 @@ const MoneyHole = styled.div`
   border: 10px solid #e8e7e5;
 `
 
-const SlotMachine = () => (
+const SlotMachine = props => (
   <StyledSlotMachineContainer>
     <WheelsContainer />
-    <Button>Start</Button>
-    <Button secondary>Stop</Button>
+    <Button handleClick={ () => props.spinSlot(true) }>Start</Button>
+    <Button handleClick={ () => props.spinSlot(false) } secondary>Stop</Button>
     <MoneyHole />
   </StyledSlotMachineContainer>
 )
-export default SlotMachine
+
+
+const mapStateToProps = state => ({
+  slotMacslothine: state.slots
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SlotMachineActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SlotMachine)

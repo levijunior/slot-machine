@@ -1,25 +1,26 @@
-import { createActions, createReducer } from "reduxsauce";
+import { createActions, createReducer } from "reduxsauce"
 
 /**
  * Action types & creators
  */
 export const { Types, Creators } = createActions({
-  startSlot: ["slot"],
+  spinSlot: ["spin"],
 });
 
 /**
  * Handlers
  */
-const INITIAL_STATE = [];
+const INITIAL_STATE = {
+  slots: [],
+  spin: false,
+};
 
-const start = (state = INITIAL_STATE, action) => [
-  ...state,
-  { slot: action.slot }
-];
+const spin = (state = INITIAL_STATE, action) => ({ ...state, spin: action.spin })
+
 
 /**
  * Reducer
  */
 export default createReducer(INITIAL_STATE, {
-  [Types.START_SLOT]: start,
+  [Types.SPIN_SLOT]: spin,
 });

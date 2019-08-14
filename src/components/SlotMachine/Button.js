@@ -20,10 +20,11 @@ const StyledButton = styled.button`
   border-radius: 10px;
   box-shadow: 0px 10px 0px 0px rgba(0,0,0,.15);
   cursor: pointer;
+  outline: none;
 `;
 
-const Button = ({ secondary, children }) => (
-  <StyledButton secondary={secondary}>{children}</StyledButton>
+const Button = ({ secondary, children, handleClick }) => (
+  <StyledButton secondary={secondary} onClick={handleClick}>{children}</StyledButton>
 )
 
 export default Button;
