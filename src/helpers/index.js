@@ -12,3 +12,14 @@ export const RandomSlots = () => {
   }
   return RandomArray;
 };
+
+export const FinalPrize = (arrTest) => {
+  let test = arrTest.map(symbol => {
+    let count = 0;
+    arrTest.forEach(item => {
+      if(symbol.name === item.name) count++
+    })
+    return count;
+  })
+  return test
+}

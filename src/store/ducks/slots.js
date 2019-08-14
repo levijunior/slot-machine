@@ -5,6 +5,7 @@ import { createActions, createReducer } from "reduxsauce"
  */
 export const { Types, Creators } = createActions({
   spinSlot: ["spin"],
+  getPrize: ["slots"]
 });
 
 /**
@@ -13,9 +14,20 @@ export const { Types, Creators } = createActions({
 const INITIAL_STATE = {
   slots: [],
   spin: false,
+  prize: false
 };
 
-const spin = (state = INITIAL_STATE, action) => ({ ...state, spin: action.spin })
+const spin = (state = INITIAL_STATE, action) => ({ 
+  ...state, 
+  spin: action.spin,
+  prize: !action.spin 
+})
+const prize = (state = INITIAL_STATE, action) => ({ 
+  ...state,
+  slots: action.slots,
+  spin: false,
+  prize: false
+})
 
 
 /**
@@ -23,4 +35,5 @@ const spin = (state = INITIAL_STATE, action) => ({ ...state, spin: action.spin }
  */
 export default createReducer(INITIAL_STATE, {
   [Types.SPIN_SLOT]: spin,
+  [Types.GET_PRIZE]: prize
 });

@@ -3,6 +3,8 @@ import Wheel from './Wheel'
 import { Symbols, RandomSlots } from '../../helpers'
 
 import { connect } from "react-redux"
+import { bindActionCreators } from 'redux';
+import { Creators as SlotMachineActions } from '../../store/ducks/slots';
 
 import styled from 'styled-components'
 
@@ -20,7 +22,7 @@ const Image = styled.div`
   padding-top: 100%;
 
   div {
-    margin-top: ${ props => `-${props.slot + 1}00%` }
+    margin-top: ${ props => `-${props.slot + 1}00%` };
     font-size: 0;
   }
   img {
@@ -41,10 +43,21 @@ class WheelsContainer extends Component {
     let slotWheels = setInterval(() => {
       if(this.props.slotMachine.spin) {
         this.setState({ slots: RandomSlots() })
-      } else {
+      } 
+      if(!this.props.slotMachine.spin && this.props.slotMachine.prize) {
         clearInterval(slotWheels);
+        let control = false
+        if(!control) {
+          control = true
+          const finalSlots = [
+            Symbols[this.state.slots[0]],
+            Symbols[this.state.slots[1]],
+            Symbols[this.state.slots[2]]
+          ]
+          this.props.getPrize(finalSlots)
+        }
       }
-    }, 500)
+    }, 50)
     return this.state.slots
   }
   
@@ -73,5 +86,7 @@ class WheelsContainer extends Component {
 const mapStateToProps = state => ({
   slotMachine: state.slots
 });
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(SlotMachineActions, dispatch);
 
-export default connect(mapStateToProps)(WheelsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(WheelsContainer);
