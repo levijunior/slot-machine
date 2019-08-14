@@ -1,4 +1,5 @@
 import { createActions, createReducer } from "reduxsauce"
+import { getPrizeValue } from '../../helpers'
 
 /**
  * Action types & creators
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
 
 const spin = (state = INITIAL_STATE, action) => ({ 
   ...state, 
+  slots: [],
   spin: action.spin,
   prize: !action.spin 
 })
@@ -26,7 +28,8 @@ const prize = (state = INITIAL_STATE, action) => ({
   ...state,
   slots: action.slots,
   spin: false,
-  prize: false
+  prize: false,
+  value: getPrizeValue(action.slots)
 })
 
 

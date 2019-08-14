@@ -1,12 +1,14 @@
 import React from 'react'
 import WheelsContainer from './WheelsContainer'
 import Button from './Button'
+import Prize from './Prize'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as SlotMachineActions } from '../../store/ducks/slots';
 
 import styled from 'styled-components'
+
 
 const SlotMachineContainer = ({ className, children }) => (
   <section className={className}>
@@ -25,23 +27,12 @@ const StyledSlotMachineContainer = styled(SlotMachineContainer)`
   font-family: sans-serif;
 `;
 
-const MoneyHole = styled.div`
-  display: block;
-  width: 80%;
-  height: 10px;
-  background: #333;
-  margin: 20px auto;
-  max-width: 800px;
-  border-radius: 15px;
-  border: 10px solid #e8e7e5;
-`
-
 const SlotMachine = props => (
   <StyledSlotMachineContainer>
     <WheelsContainer />
     <Button handleClick={ () => props.spinSlot(true) }>Start</Button>
     <Button handleClick={ () => props.spinSlot(false) } secondary>Stop</Button>
-    <MoneyHole />
+    <Prize />
   </StyledSlotMachineContainer>
 )
 
