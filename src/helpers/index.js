@@ -31,14 +31,14 @@ export const getPrizeValue = (slots) => {
     let value;
     switch (FinalPrize(slots).toString()) {
       case '2,1,2':
-        value = '10.00'
+        value = '$ 10.00'
         break;
       case '2,2,1':
       case '1,2,2':
-        value = '20.00'
+        value = '$ 20.00'
         break;
       case '3,3,3':
-        value = '100.00'
+        value = '$ 100.00'
         break;
       default:
         value = 'No prize :('
